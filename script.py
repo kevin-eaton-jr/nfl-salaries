@@ -190,4 +190,4 @@ print(average_starter_sal)
 
 print()
 
-st.bar_chart(average_starter_sal, y = ['Cap Hit', 'Base Salary'], title = 'Average Starter Salary by Position')
+st.bar_chart(average_starter_sal, y = ['Cap Hit', 'Base Salary'])
