@@ -184,6 +184,8 @@ pd.options.display.float_format = '${:,.2f}'.format
 
 average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos.').mean().sort_values(by = 'Cap Hit', ascending = False)
 
-average_starter_sal
+print(average_starter_sal)
+
+print()
 
 average_starter_sal.plot.bar(y = ['Cap Hit', 'Base Salary'], title = 'Average Starter Salary by Position')
