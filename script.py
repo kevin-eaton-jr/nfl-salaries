@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 
+import streamlit as st
+
 salary_url = 'https://www.spotrac.com/nfl/cap/'
 
 webpage = requests.get(salary_url)
@@ -188,4 +190,4 @@ print(average_starter_sal)
 
 print()
 
-average_starter_sal.plot.bar(y = ['Cap Hit', 'Base Salary'], title = 'Average Starter Salary by Position')
+st.bar_chart(average_starter_sal, y = ['Cap Hit', 'Base Salary'], title = 'Average Starter Salary by Position')
