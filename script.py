@@ -188,6 +188,8 @@ average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos
 
 average_starter_sal['Pos'] = average_starter_sal.index
 
+average_starter_sal.round({'Cap Hit':2, 'Base Salary':2})
+
 st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary']])
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit')
