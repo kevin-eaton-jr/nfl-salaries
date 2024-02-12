@@ -196,7 +196,7 @@ st_pos = ['K', 'LS', 'P']
 
 average_starter_sal['Unit'] = 'OFF' if average_starter_sal['Pos'] in off_pos else 'DEF'
 
-average_starter_sal['Unit'] = 'ST' if average_starter_sal['Pos'] in st_pos else pass
+#average_starter_sal['Unit'] = 'ST' if average_starter_sal['Pos'] in st_pos else pass
 
 st.title('Average NFL Starter Compensation by Position')
 
