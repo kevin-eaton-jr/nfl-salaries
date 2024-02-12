@@ -196,7 +196,7 @@ st_pos = ['K', 'LS', 'P']
 
 average_starter_sal['Unit'] = 'DEF'
 
-average_starter_sal['Unit'][average_starter_sal['Pos'] in off_pos] = 'OFF'
+average_starter_sal['Unit'][[(pos in off_pos) for pos in average_starter_sal['Pos']]] = 'OFF'
 
 #average_starter_sal['Unit'] = 'ST' if average_starter_sal['Pos'] in st_pos else pass
 
