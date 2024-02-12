@@ -194,7 +194,7 @@ def_pos = ['CB', 'DE', 'DT', 'FS', 'ILB', 'LB', 'OLB', 'S', 'SS']
 
 st_pos = ['K', 'LS', 'P']
 
-average_starter_sal['Unit'] = 'OFF' if average_starter_sal['Pos'] in off_pos else 'DEF'
+average_starter_sal['Unit'][average_starter_sal['Pos'] in off_pos] = 'OFF'
 
 #average_starter_sal['Unit'] = 'ST' if average_starter_sal['Pos'] in st_pos else pass
 
