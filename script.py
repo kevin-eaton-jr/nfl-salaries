@@ -188,8 +188,18 @@ average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos
 
 average_starter_sal['Pos'] = average_starter_sal.index
 
+off_pos = ['C', 'FB', 'G', 'LT', 'QB', 'RB', 'RT', 'T', 'TE', 'WR']
+
+def_pos = ['CB', 'DE', 'DT', 'FS', 'ILB', 'LB', 'OLB', 'S', 'SS']
+
+st_pos = ['K', 'LS', 'P']
+
+average_starter_sal['Unit'] = 'OFF' if average_starter_sal['Pos'] in off_pos else 'DEF'
+
+average_starter_sal['Unit'] = 'ST' if average_starter_sal['Pos'] in st_pos
+
 st.title('Average NFL Starter Compensation by Position')
 
-st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary']].round(0))
+st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary']][average_starter_sal['Unit'] == 'OFF'].round(0))
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit')
