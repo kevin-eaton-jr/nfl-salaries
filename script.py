@@ -202,6 +202,6 @@ average_starter_sal['Unit'][[(pos in st_pos) for pos in average_starter_sal['Pos
 
 st.title('Average NFL Starter Compensation by Position')
 
-st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0))
-
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
+
+st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 1000)
