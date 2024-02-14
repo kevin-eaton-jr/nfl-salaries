@@ -184,7 +184,7 @@ merged_df = team_df.merge(depth_chart_df,
 
 pd.options.display.float_format = '${:,.2f}'.format
 
-average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos.').mean().sort_values(by = 'Cap Hit', ascending = False)
+average_starter_sal = merged_df.groupby('Pos.').agg({'Pos.': ['count'], 'Cap Hit': 'mean', 'Base Salary': 'mean'})
 
 average_starter_sal['Pos'] = average_starter_sal.index
 
@@ -200,8 +200,20 @@ average_starter_sal['Unit'][[(pos in off_pos) for pos in average_starter_sal['Po
 
 average_starter_sal['Unit'][[(pos in st_pos) for pos in average_starter_sal['Pos']]] = 'ST'
 
+average_starter_sal['wt'] = average_starter_sal.loc[:,'Pos.']/32
+
+average_starter_sal['Weighted Cap Hit'] = average_starter_sal.loc[:, 'Cap Hit'] * average_starter_sal['wt']
+
+# average_team_sal = merged_df.groupby('Pos.').agg({'Pos.': ['count'], 'Cap Hit': 'mean', 'Base Salary': 'mean'})
+
+# average_team_sal['wt'] = average_team_sal['Pos.']/32
+
+# average_team_sal['Weighted Cap Hit'] = average_team_sal['Cap Hit'] * average_team_sal['wt']
+
 st.title('Average NFL Starter Compensation by Position')
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
 
-st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
+#st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
+
+st.dataframe(average_starter_sal.round(0), height = 810)
