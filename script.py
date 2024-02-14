@@ -209,6 +209,8 @@ weighted_sal['Weighted Cap Hit'] = weighted_sal.loc[:, 'Cap Hit']['mean'] * weig
 
 weighted_sal['Unit'] = average_starter_sal['Unit']
 
+weighted_sal.columns = weighted_sal.columns.droplevel(1)
+
 st.title('Average NFL Starter Compensation by Position')
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
