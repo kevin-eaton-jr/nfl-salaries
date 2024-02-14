@@ -202,7 +202,7 @@ average_starter_sal['Unit'][[(pos in st_pos) for pos in average_starter_sal['Pos
 
 average_starter_sal['wt'] = average_starter_sal.loc[:,'Pos.']/32
 
-average_starter_sal['Weighted Cap Hit'] = average_starter_sal.loc[:, 'Cap Hit'] * average_starter_sal['wt']
+average_starter_sal['Weighted Cap Hit'] = average_starter_sal.loc[:, 'Cap Hit']['mean'] * average_starter_sal['wt']
 
 # average_team_sal = merged_df.groupby('Pos.').agg({'Pos.': ['count'], 'Cap Hit': 'mean', 'Base Salary': 'mean'})
 
