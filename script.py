@@ -184,7 +184,7 @@ merged_df = team_df.merge(depth_chart_df,
 
 pd.options.display.float_format = '${:,.2f}'.format
 
-average_starter_sal = merged_df.groupby('Pos.').mean().sort_values('Cap Hit', ascending = False)
+average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos.').mean().sort_values(by = 'Cap Hit', ascending = False)
 
 average_starter_sal['Pos'] = average_starter_sal.index
 
