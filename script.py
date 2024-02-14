@@ -215,8 +215,12 @@ st.title('Average NFL Starter Compensation by Position')
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
 
-st.dataframe(weighted_sal.round(0), height = 810)
+col1, col2 = st.columns(2)
+
+col1.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
+
+col2.dataframe(weighted_sal.round(0), height = 810)
 
 
-#st.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
+
 
