@@ -217,9 +217,13 @@ st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
 
 col1, col2 = st.columns(2)
 
+col1.subheader('Average Compensation by Position')
+
 col1.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
 
-col2.dataframe(weighted_sal.round(0), height = 810)
+col2.subheader('Average Total Compensation by Unit')
+
+col2.dataframe(weighted_sal['Weighted Cap Hit'].groupby('Unit').sum().round(0))
 
 
 
