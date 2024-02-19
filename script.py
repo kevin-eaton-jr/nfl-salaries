@@ -225,6 +225,6 @@ col2.subheader('Average Weighted Compensation by Position', divider = 'gray')
 
 col2.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].round(0).sort_values('Weighted Cap Hit', ascending = False), height = 810)
 
-col3.subheader('Total Compensation by Unit', divider = 'gray')
+col3.subheader('Average Total Compensation by Unit', divider = 'gray')
 
 col3.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].groupby('Unit').sum().round(0).sort_values('Weighted Cap Hit', ascending = False))
