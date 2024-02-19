@@ -215,7 +215,7 @@ st.title('Average NFL Starter Compensation by Position')
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 col1.subheader('Average Compensation by Position', divider = 'gray')
 
@@ -225,6 +225,6 @@ col2.subheader('Average Weighted Compensation by Position', divider = 'gray')
 
 col2.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].round(0).sort_values('Weighted Cap Hit', ascending = False), height = 810)
 
-col3.subheader('Average Total Compensation by Unit', divider = 'gray')
+#col3.subheader('Average Total Compensation by Unit', divider = 'gray')
 
-col3.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].groupby('Unit').sum().round(0).sort_values('Weighted Cap Hit', ascending = False))
+#col3.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].groupby('Unit').sum().round(0).sort_values('Weighted Cap Hit', ascending = False))
