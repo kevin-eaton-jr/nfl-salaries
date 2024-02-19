@@ -211,7 +211,7 @@ weighted_sal['Unit'] = average_starter_sal['Unit']
 
 weighted_sal.columns = weighted_sal.columns.droplevel(1)
 
-weighted_sal.rename(columns = {'wt': 'Avg Number of Players Per Team'})
+weighted_sal.rename(columns = {'wt': 'Avg Number of Players Per Team'}, inplace = True)
 
 st.title('Average NFL Starter Compensation by Position')
 
@@ -227,6 +227,6 @@ col2.subheader('Average Weighted Compensation by Position', divider = 'gray')
 
 col2.dataframe(weighted_sal[['Weighted Cap Hit', 'Avg Number of Players Per Team', 'Unit']].round(0).sort_values('Weighted Cap Hit', ascending = False), height = 810)
 
-#col3.subheader('Average Total Compensation by Unit', divider = 'gray')
+st.subheader('Average Total Compensation by Unit', divider = 'gray')
 
-#col3.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].groupby('Unit').sum().round(0).sort_values('Weighted Cap Hit', ascending = False))
+st.dataframe(weighted_sal[['Weighted Cap Hit', 'Unit']].groupby('Unit').sum().round(0).sort_values('Weighted Cap Hit', ascending = False))
