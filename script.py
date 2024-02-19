@@ -217,7 +217,7 @@ st.title('Average NFL Starter Compensation by Position')
 
 st.bar_chart(average_starter_sal, x = 'Pos', y = 'Cap Hit', color = 'Unit')
 
-col1, col2 = st.columns([0.4, 0.6])
+col1, col2 = st.columns([0.45, 0.55])
 
 col1.subheader('Average Compensation by Position', divider = 'gray')
 
