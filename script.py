@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 
-#import streamlit as st
+import streamlit as st
 
 salary_url = 'https://www.spotrac.com/nfl/cap/'
 
