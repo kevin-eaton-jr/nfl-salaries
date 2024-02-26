@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 
-import streamlit as st
+#import streamlit as st
 
 salary_url = 'https://www.spotrac.com/nfl/cap/'
 
@@ -38,8 +38,6 @@ for row in html_data:
 
   if row_data[0] == 'League Average':
     continue
-
-  row_data[1] = row_data[1].split('\n')[0]
 
   row_data[4] = row_data[4].strip('$').replace(',', '')
 
@@ -77,7 +75,7 @@ df['Team URL'] = team_url
 
 for ind in df.index:
 
-  team_name = df.loc[ind, 'Team']
+  team_name = df.loc[ind, 'Team'].split('\n')[1]
   team_url = df.loc[ind, 'Team URL']
 
   team_webpage = requests.get(team_url)
@@ -94,6 +92,8 @@ for ind in df.index:
 
     cols[0] = cols[0][:-5]
 
+    cols = cols + ['Team']
+
     team_df = pd.DataFrame(columns = cols)
 
   player_html_data = team_html_table.find_all('tr')[1:]
@@ -108,17 +108,19 @@ for ind in df.index:
 
     player_row_data[0] = ' '.join(player_row_data[0][(len(player_row_data[0]) // 2):])
 
+    player_row_data[0] = player_row_data[0].upper()
+
     for i in range(len(player_row_data)-2):
 
       player_row_data[i+2] = player_row_data[i+2].replace('$', '').replace(',', '').replace('0-', '0').replace('(', '-').replace(')', '').split()[0]
 
     length = len(team_df)
 
-    team_df.loc[length] = player_row_data
+    team_df.loc[length] = player_row_data + [team_name]
 
 team_df = team_df.loc[:,~team_df.columns.duplicated()].copy()
 
-num_cols = list(team_df.columns[2:])
+num_cols = list(team_df.columns[2:-1])
 
 team_df[num_cols] = team_df[num_cols].apply(pd.to_numeric)
 
@@ -161,26 +163,57 @@ for row in depth_chart_html_data:
   if(len(row_data) != 12):
     continue
 
-  row_data[3] = row_data[3].split()[:-1]
+  # row_data[3] = row_data[3].split()[:-1]
 
-  row_data[3] = [data.replace(',', '') for data in row_data[3]]
+  # row_data[3] = [data.replace(',', '') for data in row_data[3]]
 
-  row_data[3] = row_data[3][-1:] + row_data[3][:-1]
+  # row_data[3] = row_data[3][-1:] + row_data[3][:-1]
 
-  row_data[3] = ' '.join(row_data[3])
+  # row_data[3] = ' '.join(row_data[3])
 
-  row_data[3] = row_data[3].title()
+  # row_data[3] = row_data[3].upper()
+
+  # row_data[3] = row_data[3].replace('Ñ', 'N')
+
+  if(row_data[1] in ['FUT', 'RES', 'FACC']):
+    continue
+
+  if(sum([row_data[3] in name for name in depth_chart_df['Player 1']])):
+    continue
 
   depth_chart_df.loc[length] = row_data
 
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: x.split()[:-1])
+
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: [data.replace(',', '') for data in x])
+
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: x[-1:] + x[:-1])
+
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: ' '.join(x))
+
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: x.upper())
+
+depth_chart_df['Player 1'] = depth_chart_df['Player 1'].apply(lambda x: x.replace('Ñ', 'N'))
+
 #depth_chart_df.head()
 
+team_list = [(team, team in depth_chart_df['Team'].unique()) for team in team_df['Team'].unique()]
+
+for team in team_list:
+  if not team[1]:
+    print(team)
+
+depth_chart_df['Team'][depth_chart_df['Team'] == 'ARZ'] = 'ARI'
+
+depth_chart_df['Team'][depth_chart_df['Team'] == 'JAX'] = 'JAC'
+
 merged_df = team_df.merge(depth_chart_df,
-                          left_on = 'Active Players',
-                          right_on = 'Player 1')[['Active Players',
-                                                  'Pos.',
-                                                  'Cap Hit',
-                                                  'Base Salary']]
+                          left_on = ['Active Players', 'Team'],
+                          right_on = ['Player 1', 'Team'])[['Active Players',
+                                                            'Team',
+                                                            'Pos.',
+                                                            'Cap Hit',
+                                                            'Base Salary']]
 
 pd.options.display.float_format = '${:,.2f}'.format
 
