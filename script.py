@@ -213,19 +213,28 @@ merged_df = team_df.merge(depth_chart_df,
                                                             'Team',
                                                             'Pos.',
                                                             'Cap Hit',
-                                                            'Base Salary']]
+                                                            'Base Salary',
+                                                            'Pos',]]
+
+merged_df['Pos'][merged_df['Pos'].str.contains('WR')] = 'WR'
+merged_df['Pos'][merged_df['Pos'].str.contains('DT|NT', regex = True)] = 'DT'
+merged_df['Pos'][merged_df['Pos'].str.contains('ILB|MLB', regex = True)] = 'ILB'
+merged_df['Pos'][merged_df['Pos'].str.contains('OLB|SLB|WLB', regex = True)] = 'OLB'
+merged_df['Pos'][merged_df['Pos'].str.contains('CB|NB', regex = True)] = 'CB'
+merged_df['Pos'][merged_df['Pos'].str.contains('DE|RUSH', regex = True)] = 'DE'
+merged_df['Pos'][merged_df['Pos'].str.contains('LG|RG', regex = True)] = 'G'
 
 pd.options.display.float_format = '${:,.2f}'.format
 
-average_starter_sal = merged_df[['Pos.', 'Cap Hit', 'Base Salary']].groupby('Pos.').mean().sort_values(by = 'Cap Hit', ascending = False)
+average_starter_sal = merged_df[['Pos', 'Cap Hit', 'Base Salary']].groupby('Pos').mean().sort_values(by = 'Cap Hit', ascending = False)
 
 average_starter_sal['Pos'] = average_starter_sal.index
 
-off_pos = ['C', 'FB', 'G', 'LT', 'QB', 'RB', 'RT', 'T', 'TE', 'WR']
+off_pos = ['C', 'FB', 'G', 'LT', 'QB', 'RB', 'RT', 'TE', 'WR']
 
-def_pos = ['CB', 'DE', 'DT', 'FS', 'ILB', 'LB', 'OLB', 'S', 'SS']
+def_pos = ['CB', 'DE', 'DT', 'FS', 'ILB', 'OLB', 'SS']
 
-st_pos = ['K', 'LS', 'P']
+st_pos = ['PK', 'LS', 'PT', 'PR', 'KR']
 
 average_starter_sal['Unit'] = 'DEF'
 
@@ -233,10 +242,10 @@ average_starter_sal['Unit'][[(pos in off_pos) for pos in average_starter_sal['Po
 
 average_starter_sal['Unit'][[(pos in st_pos) for pos in average_starter_sal['Pos']]] = 'ST'
 
-weighted_sal = merged_df.groupby('Pos.').agg(
-  {'Pos.': ['count'], 'Cap Hit': 'mean'}).sort_values(('Cap Hit', 'mean'), ascending = False)
+weighted_sal = merged_df.groupby('Pos').agg(
+  {'Pos': ['count'], 'Cap Hit': 'mean'}).sort_values(('Cap Hit', 'mean'), ascending = False)
 
-weighted_sal['wt'] = weighted_sal.loc[:,'Pos.']/32
+weighted_sal['wt'] = weighted_sal.loc[:,'Pos']/32
 
 weighted_sal['Weighted Cap Hit'] = weighted_sal.loc[:, 'Cap Hit']['mean'] * weighted_sal['wt']
 
