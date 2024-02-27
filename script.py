@@ -263,11 +263,11 @@ col1, col2 = st.columns([0.45, 0.55])
 
 col1.subheader('Average Compensation by Position', divider = 'gray')
 
-col1.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 810)
+col1.dataframe(average_starter_sal[['Cap Hit', 'Base Salary', 'Unit']].round(0), height = 800)
 
 col2.subheader('Average Weighted Compensation by Position', divider = 'gray')
 
-col2.dataframe(weighted_sal[['Weighted Cap Hit', 'Avg Num Players Per Team', 'Unit']].round(1).sort_values('Weighted Cap Hit', ascending = False), use_container_width = True, height = 810)
+col2.dataframe(weighted_sal[['Weighted Cap Hit', 'Avg Num Players Per Team', 'Unit']].round(1).sort_values('Weighted Cap Hit', ascending = False), use_container_width = True, height = 800)
 
 st.subheader('Average Total Compensation by Unit', divider = 'gray')
 
